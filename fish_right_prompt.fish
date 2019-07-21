@@ -1,4 +1,4 @@
-function fish_right_prompt 
+function fish_right_prompt
   set -l exit_code $status
   set -l cmd_duration $CMD_DURATION
   __tmux_prompt
@@ -13,7 +13,7 @@ function fish_right_prompt
   else
     set_color blue
   end
-  printf ' < %s' (_convertsecs (math $cmd_duration / 1000))
+  printf ' < %s' (_convertsecs (math -s0 $cmd_duration / 1000))
   set_color 666666
   printf ' < %s' (date +%H:%M:%S)
   set_color normal
@@ -61,5 +61,5 @@ function _is_multiplexed
 end
 
 function _convertsecs
- printf "%02d:%02d:%02d\n" (math $argv[1] / 3600) (math (math $argv[1] \% 3600) / 60) (math $argv[1] \% 60)
+ printf "%02d:%02d:%02d\n" (math -s0 $argv[1] / 3600) (math -s0 (math -s0 $argv[1] \% 3600) / 60) (math -s0 $argv[1] \% 60)
 end
