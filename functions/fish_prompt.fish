@@ -9,27 +9,13 @@ function fish_prompt
   if not set -q __fish_prompt_char
     switch (id -u)
       case 0
-	set -g __fish_prompt_char '#'
+	       set -g __fish_prompt_char '#'
       case '*'
-	set -g __fish_prompt_char 'λ'
+	       set -g __fish_prompt_char 'λ'
     end
   end
 
   # Setup colors
-  #use extended color pallete if available
-#if [[ $terminfo[colors] -ge 256 ]]; then
-#    turquoise="%F{81}"
-#    orange="%F{166}"
-#    purple="%F{135}"
-#    hotpink="%F{161}"
-#    limegreen="%F{118}"
-#else
-#    turquoise="%F{cyan}"
-#    orange="%F{yellow}"
-#    purple="%F{magenta}"
-#    hotpink="%F{red}"
-#    limegreen="%F{green}"
-#fi
   set -l normal (set_color normal)
   set -l white (set_color FFFFFF)
   set -l turquoise (set_color 5fdfff)
@@ -52,11 +38,14 @@ function fish_prompt
 
   # find out if read only directory
   set fish_prompt_wdir ''
-  if [ ! -w . ]; set fish_prompt_wdir '(-w🔒)'; end
+  if [ ! -w . ]; set fish_prompt_wdir '🔒'; end
+
+  # current user into variable
+  set -l current_user (whoami)
 
   # Line 1
-  echo -n $white'╭─'$hotpink$USER$white' at '$orange$__fish_prompt_hostname$white' in '$limegreen(pwd)$hotpink$fish_prompt_wdir$turquoise
-  __fish_git_prompt " (%s)"
+  echo -n $white'╭─'$hotpink$current_user$white' at '$orange$__fish_prompt_hostname$white' in '$limegreen(pwd)$hotpink$fish_prompt_wdir$turquoise
+  __fish_git_prompt "[%s]"
   echo
 
   # Line 2
