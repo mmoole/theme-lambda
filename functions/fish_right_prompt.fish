@@ -8,7 +8,9 @@ function fish_right_prompt
     set_color green
   end
   printf '%d' $exit_code
-  if test $cmd_duration -ge 5000
+  if test $cmd_duration -ge 60000
+    set_color brmagenta
+  else if test $cmd_duration -ge 5000
     set_color brcyan
   else
     set_color blue

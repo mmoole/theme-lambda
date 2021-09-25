@@ -28,23 +28,39 @@ function fish_prompt
   # Configure __fish_git_prompt
   set -g __fish_git_prompt_char_stateseparator ' '
   set -g __fish_git_prompt_color 5fdfff
+  set -g __fish_git_prompt_color_bare afafc8
   set -g __fish_git_prompt_color_flags df5f00
+  set -g __fish_git_prompt_color_invalidstate d2190b
   set -g __fish_git_prompt_color_prefix white
   set -g __fish_git_prompt_color_suffix white
+  set -g __fish_git_prompt_color_merging ff9100
+  set -g __fish_git_prompt_describe_style describe
   set -g __fish_git_prompt_showdirtystate true
+  set -g __fish_git_prompt_showcolorhints true
   set -g __fish_git_prompt_showuntrackedfiles true
   set -g __fish_git_prompt_showstashstate true
   set -g __fish_git_prompt_show_informative_status true
+  set -g __fish_git_prompt_showupstream none
+  set -g __fish_git_prompt_showstashstate true
+  #set -g __fish_git_prompt_shorten_branch_len 20
+
 
   # find out if read only directory
-  set fish_prompt_wdir ''
-  if [ ! -w . ]; set fish_prompt_wdir '🔒'; end
+  set -l fish_prompt_wdir ''
+  if [ ! -w . ]; set -l fish_prompt_wdir '🔒'; end
+
+  # find out running jobs
+  set -l fish_prompt_njobs ''
+  set -l njobs (count (jobs -p))
+  if test $njobs -gt 0
+      set -l fish_prompt_njobs $njobs'⚙️ '
+  end
 
   # current user into variable
   set -l current_user (whoami)
 
   # Line 1
-  echo -n $white'╭─'$hotpink$current_user$white' at '$orange$__fish_prompt_hostname$white' in '$limegreen(pwd)$hotpink$fish_prompt_wdir$turquoise
+  echo -n $white'╭─'$hotpink$current_user$white' at '$orange$__fish_prompt_hostname$white' in '$limegreen(pwd)$hotpink$fish_prompt_wdir$fish_prompt_njobs$turquoise
   __fish_git_prompt "[%s]"
   echo
 
